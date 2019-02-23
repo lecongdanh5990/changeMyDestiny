@@ -27,12 +27,6 @@ Route::resource('mission.works','MissionWorksController',
 );
 
 
-Route::resource('step','StepController',
-    ['except' => ['create', 'edit']]);
-Route::resource('steps','StepController',
-    ['only' => ['index ', 'show']]
-);
-
 
 Route::get('work/today', 'WorkController@showToday');
 Route::get('work/completed', 'WorkController@showCompleted');

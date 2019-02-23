@@ -16,12 +16,13 @@ class CreateWorksTable extends Migration
         Schema::create('works', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->integer('priority')->default('1');
+            $table->integer('mission_id')->unsigned();
             $table->boolean('iscomplete')->default('0');
             $table->string('description')->nullable();
-            $table->integer('step_id')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('step_id')->references('id')->on('steps');
+            $table->foreign('mission_id')->references('id')->on('missions');
         });
     }
 

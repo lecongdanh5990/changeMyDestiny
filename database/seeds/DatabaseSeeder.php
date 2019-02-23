@@ -2,7 +2,6 @@
 
 use Illuminate\Database\Seeder;
 use App\Mission;
-use App\Step;
 use App\User;
 use App\Note;
 use App\Work;
@@ -18,7 +17,6 @@ class DatabaseSeeder extends Seeder
     {
         factory(User::class, 1)->create();
         factory(Mission::class, 1)->create();
-        factory(Step::class, 1)->create();
         factory(Note::class, 2)->create();
         factory(Work::class, 2)->create();
     }
