@@ -50189,7 +50189,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "panel panel-default" }, [
-      _c("div", { staticClass: "panel-heading" }, [_vm._v("Dashboard")])
+      _c("div", { staticClass: "panel-heading" }, [_vm._v("Dashboard")]),
+      _vm._v(" "),
+      _c("div", [_vm._v("HELLO 2019")])
     ])
   }
 ]
@@ -52169,7 +52171,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.today-component__alert{\n    font-size: 1.5rem;\n}\n.today-component__checkbox{\n    width: 2rem;\n    height: 2rem;\n}\n\n", ""]);
+exports.push([module.i, "\n.today-component__alert{\n    font-size: 1.5rem;\n}\n.today-component__checkbox{\n    width: 2rem;\n    height: 2rem;\n}\n#today-worktable tr td,\n#today-completeworktable tr td{\n    color: white;\n    text-align: center;\n    font-weight: bold;\n}\n#today-worktable thead,\n#today-completeworktable thead{\n    background-color:lavenderblush;\n}\n", ""]);
 
 // exports
 
@@ -52180,16 +52182,6 @@ exports.push([module.i, "\n.today-component__alert{\n    font-size: 1.5rem;\n}\n
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -52379,28 +52371,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             alertDangerClass: 'alert-danger',
             alertInfoClass: 'alert-info',
             alertClass: 'alert',
-            form: new Form({
+            backgroundColors: ['#FF0000', '#FF7F00', '#FFFF00', '#00FF00'],
+            formCreate: new Form({
                 name: '',
+                priority: '',
                 id: '',
                 description: '',
-                iscomplete: 0,
-                step_id: ''
-
+                iscomplete: '',
+                mission_id: ''
             }),
-            formEdit: new Form(_defineProperty({
+            formEdit: new Form({
                 name: '',
                 id: '',
                 description: '',
                 selectedMission: '',
-                step_id: '',
-                iscomplete: 0
-            }, 'step_id', '')),
+                priority: '',
+                iscomplete: 0,
+                step_id: ''
+            }),
             selectedMission: 1,
             listOfMissions: [],
             listOfWorks: [],
-            listOfCompletedWorks: [],
-            todaySteps: []
-
+            listOfCompletedWorks: []
         };
     },
 
@@ -52412,6 +52404,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
 
     methods: {
+        show: function show() {
+            alert(this.formCreate.name);
+        },
         getMissionOfToday: function getMissionOfToday() {
             var _this = this;
 
@@ -52420,69 +52415,69 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 console.log(_this.listOfMissions.length);
             });
         },
-        getStepsOfToday: function getStepsOfToday() {
+
+        // getStepsOfToday(){
+        //     axios.get('/api/mission/today')
+        //     .then(data=>{
+        //         var today = new Date();
+        //         var dd = today.getDate();
+        //         var mm = today.getMonth() + 1; //January is 0!
+        //         var yyyy = today.getFullYear();
+        //         if (dd < 10) {
+        //         dd = '0' + dd;
+        //         }
+        //         if (mm < 10) {
+        //         mm = '0' + mm;
+        //         }
+        //         today = mm + '-' + dd + '-' + yyyy;
+
+        //         for (var j = 0; j < data.data.length; j++){
+        //                 var now=moment(today);
+        //                 var endday=moment(data.data[j].endday);
+        //                 data.data[j]['dayleft']=endday.diff(now,'day');
+        //             }
+        //         this.listOfWorks=data.data;
+        //     })
+        // },
+        // getTodayStepOfMission(){
+        //     axios.get('/api/mission/'+this.selectedMission+'/steps/today')
+        //     .then(response=>{
+        //         this.todaySteps=response.data;
+        //         this.formEdit.step_id=this.todaySteps[0].id;
+        //     })
+        // },
+
+        getWorksOfToday: function getWorksOfToday() {
             var _this2 = this;
 
-            axios.get('/api/mission/today').then(function (data) {
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth() + 1; //January is 0!
-                var yyyy = today.getFullYear();
-                if (dd < 10) {
-                    dd = '0' + dd;
-                }
-                if (mm < 10) {
-                    mm = '0' + mm;
-                }
-                today = mm + '-' + dd + '-' + yyyy;
-
-                for (var j = 0; j < data.data.length; j++) {
-                    var now = moment(today);
-                    var endday = moment(data.data[j].endday);
-                    data.data[j]['dayleft'] = endday.diff(now, 'day');
-                }
-                _this2.listOfWorks = data.data;
-            });
-        },
-        getTodayStepOfMission: function getTodayStepOfMission() {
-            var _this3 = this;
-
-            axios.get('/api/mission/' + this.selectedMission + '/steps/today').then(function (response) {
-                _this3.todaySteps = response.data;
-                _this3.formEdit.step_id = _this3.todaySteps[0].id;
-            });
-        },
-        getWorksOfToday: function getWorksOfToday() {
-            var _this4 = this;
-
             axios.get('/api/work/today').then(function (response) {
-                _this4.listOfWorks = response.data;
+                _this2.listOfWorks = response.data;
             });
         },
         getCompletedWorksOfToday: function getCompletedWorksOfToday() {
-            var _this5 = this;
+            var _this3 = this;
 
             axios.get('/api/work/completed').then(function (response) {
-                _this5.listOfCompletedWorks = response.data;
+                _this3.listOfCompletedWorks = response.data;
             });
         },
         addWork: function addWork() {
-            var _this6 = this;
+            var _this4 = this;
 
-            console.log(this.form);
-            this.form.post('api/work').then(function (data) {
-                _this6.getWorksOfToday();
-                _this6.form.reset();
+            console.log(this.formCreate);
+            this.formCreate.post('api/work').then(function (data) {
+                _this4.getWorksOfToday();
+                _this4.formCreate.reset();
             });
         },
         completeWork: function completeWork(work) {
-            var _this7 = this;
+            var _this5 = this;
 
-            this.form.fill(work);
-            this.form.iscomplete = 1;
-            this.form.patch('/api/work/' + work.id).then(function (response) {
-                _this7.getWorksOfToday();
-                _this7.getCompletedWorksOfToday();
+            this.formCreate.fill(work);
+            this.formCreate.iscomplete = 1;
+            this.formCreate.patch('/api/work/' + work.id).then(function (response) {
+                _this5.getWorksOfToday();
+                _this5.getCompletedWorksOfToday();
             });
         },
         editWork: function editWork(work) {
@@ -52490,15 +52485,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             this.formEdit.fill(work);
         },
         updateWork: function updateWork() {
-            var _this8 = this;
+            var _this6 = this;
 
             this.formEdit.patch('/api/work/' + this.formEdit.id).then(function (response) {
-                _this8.getWorksOfToday();
+                _this6.getWorksOfToday();
                 $('#editWork').modal('hide');
             });
         },
         deleteWork: function deleteWork(id) {
-            var _this9 = this;
+            var _this7 = this;
 
             Swal({
                 title: 'Are you sure?',
@@ -52509,8 +52504,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then(function (result) {
-                _this9.form.delete('api/work/' + id).then(function (data) {
-                    _this9.getWorksOfToday();
+                _this7.formCreate.delete('api/work/' + id).then(function (data) {
+                    _this7.getWorksOfToday();
                 });
             });
         }
@@ -52571,123 +52566,124 @@ var render = function() {
     _c("div", [
       _c("label", { attrs: { for: "" } }, [_vm._v("List of works")]),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered " }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.listOfWorks, function(work, index) {
-            return _c("tr", [
-              _c("td", [_vm._v(_vm._s(index + 1))]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(work.name) +
-                    "\n                    "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.missionname))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.stepname))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.description))]),
-              _vm._v(" "),
-              _c("td", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-primary",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.editWork(work)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            Edit \n                        "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-danger",
-                    on: {
-                      click: function($event) {
-                        _vm.deleteWork(work.id)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-trash" }, [_vm._v("Delete")])]
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "text-center" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "form-check today-component__checkbox text-center"
-                  },
-                  [
-                    _c("input", {
-                      staticClass: "form-check-input today-component__checkbox",
-                      attrs: {
-                        type: "checkbox",
-                        value: "",
-                        id: "defaultCheck1"
-                      },
-                      on: {
-                        change: function($event) {
-                          _vm.completeWork(work)
+      _c(
+        "table",
+        {
+          staticClass: "table table-bordered",
+          attrs: { id: "today-worktable" }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.listOfWorks, function(work) {
+              return _c(
+                "tr",
+                {
+                  style: {
+                    "background-color": _vm.backgroundColors[work.priority - 1]
+                  }
+                },
+                [
+                  _c("td", [_vm._v(_vm._s(work.priority))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.missionname))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.description))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            _vm.deleteWork(work.id)
+                          }
                         }
-                      }
-                    })
-                  ]
-                )
-              ])
-            ])
-          }),
-          0
-        )
-      ]),
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-trash" }, [
+                          _vm._v("Delete")
+                        ])
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-center" }, [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "form-check today-component__checkbox text-center"
+                      },
+                      [
+                        _c("input", {
+                          staticClass:
+                            "form-check-input today-component__checkbox",
+                          attrs: {
+                            type: "checkbox",
+                            value: "",
+                            id: "defaultCheck1"
+                          },
+                          on: {
+                            change: function($event) {
+                              _vm.completeWork(work)
+                            }
+                          }
+                        })
+                      ]
+                    )
+                  ])
+                ]
+              )
+            }),
+            0
+          )
+        ]
+      ),
       _vm._v(" "),
       _c("label", { attrs: { for: "" } }, [
         _vm._v("List of works were completed")
       ]),
       _vm._v(" "),
-      _c("table", { staticClass: "table table-bordered" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.listOfCompletedWorks, function(work, index) {
-            return _c("tr", [
-              _c("td", [_vm._v(_vm._s(index + 1))]),
-              _vm._v(" "),
-              _c("td", [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(work.name) +
-                    "\n                    "
-                )
-              ]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.missionname))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.stepname))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(work.description))])
-            ])
-          }),
-          0
-        )
-      ]),
+      _c(
+        "table",
+        {
+          staticClass: "table table-bordered",
+          attrs: { id: "today-completeworktable" }
+        },
+        [
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.listOfCompletedWorks, function(work) {
+              return _c(
+                "tr",
+                {
+                  style: {
+                    "background-color": _vm.backgroundColors[work.priority - 1]
+                  }
+                },
+                [
+                  _c("td", [_vm._v(_vm._s(work.priority))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.name))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.missionname))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(work.description))])
+                ]
+              )
+            }),
+            0
+          )
+        ]
+      ),
       _vm._v(" "),
       _c("h1", [_vm._v("What will you do today?")]),
       _vm._v(" "),
@@ -52712,19 +52708,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.form.name,
-                  expression: "form.name"
+                  value: _vm.formCreate.name,
+                  expression: "formCreate.name"
                 }
               ],
               staticClass: "form-control",
-              attrs: { type: "text", id: "name", name: "name" },
-              domProps: { value: _vm.form.name },
+              attrs: { type: "text" },
+              domProps: { value: _vm.formCreate.name },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.form, "name", $event.target.value)
+                  _vm.$set(_vm.formCreate, "name", $event.target.value)
                 }
               }
             })
@@ -52733,6 +52729,8 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "" } }, [_vm._v("Choose mission")]),
+                _vm._v(" "),
                 _c(
                   "select",
                   {
@@ -52740,37 +52738,35 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.selectedMission,
-                        expression: "selectedMission"
+                        value: _vm.formCreate.mission_id,
+                        expression: "formCreate.mission_id"
                       }
                     ],
                     staticClass: "form-control form-control-lg",
-                    attrs: { name: "", id: "" },
                     on: {
-                      change: [
-                        function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.selectedMission = $event.target.multiple
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.$set(
+                          _vm.formCreate,
+                          "mission_id",
+                          $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
-                        },
-                        function($event) {
-                          _vm.getTodayStepOfMission()
-                        }
-                      ]
+                        )
+                      }
                     }
                   },
                   [
                     _c(
                       "option",
-                      { attrs: { value: "1" }, domProps: { selected: true } },
+                      { attrs: { value: "2" }, domProps: { selected: true } },
                       [_vm._v("Choose mission")]
                     ),
                     _vm._v(" "),
@@ -52791,6 +52787,10 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "col-md-6" }, [
               _c("div", { staticClass: "form-group" }, [
+                _c("label", { attrs: { for: "" } }, [
+                  _vm._v("Choose priority")
+                ]),
+                _vm._v(" "),
                 _c(
                   "select",
                   {
@@ -52798,12 +52798,12 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.form.step_id,
-                        expression: "form.step_id"
+                        value: _vm.formCreate.priority,
+                        expression: "formCreate.priority"
                       }
                     ],
                     staticClass: "form-control form-control-lg",
-                    attrs: { name: "", id: "", disabled: "" },
+                    attrs: { name: "priority" },
                     on: {
                       change: function($event) {
                         var $$selectedVal = Array.prototype.filter
@@ -52815,8 +52815,8 @@ var render = function() {
                             return val
                           })
                         _vm.$set(
-                          _vm.form,
-                          "step_id",
+                          _vm.formCreate,
+                          "priority",
                           $event.target.multiple
                             ? $$selectedVal
                             : $$selectedVal[0]
@@ -52824,12 +52824,27 @@ var render = function() {
                       }
                     }
                   },
-                  _vm._l(_vm.todaySteps, function(step) {
-                    return _c("option", { domProps: { value: step.id } }, [
-                      _vm._v(_vm._s(step.name))
+                  [
+                    _c("option", { attrs: { value: "0", selected: "" } }, [
+                      _vm._v("Choose Priority")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "1" } }, [
+                      _vm._v("Important, not emergency")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "2" } }, [
+                      _vm._v("Important and emergency")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "3" } }, [
+                      _vm._v("Not important but emergency")
+                    ]),
+                    _vm._v(" "),
+                    _c("option", { attrs: { value: "4" } }, [
+                      _vm._v("Not important, not emergency")
                     ])
-                  }),
-                  0
+                  ]
                 )
               ])
             ])
@@ -52845,19 +52860,19 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.form.description,
-                  expression: "form.description"
+                  value: _vm.formCreate.description,
+                  expression: "formCreate.description"
                 }
               ],
               staticClass: "form-control",
               attrs: { id: "exampleFormControlTextarea1", rows: "3" },
-              domProps: { value: _vm.form.description },
+              domProps: { value: _vm.formCreate.description },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.$set(_vm.form, "description", $event.target.value)
+                  _vm.$set(_vm.formCreate, "description", $event.target.value)
                 }
               }
             })
@@ -52958,9 +52973,7 @@ var render = function() {
                                       ? $$selectedVal
                                       : $$selectedVal[0]
                                   },
-                                  function($event) {
-                                    _vm.getTodayStepOfMission()
-                                  }
+                                  function($event) {}
                                 ]
                               }
                             },
@@ -52982,57 +52995,7 @@ var render = function() {
                         ])
                       ]),
                       _vm._v(" "),
-                      _c("div", { staticClass: "col-md-6" }, [
-                        _c("div", { staticClass: "form-group" }, [
-                          _c("label", { attrs: { for: "" } }, [
-                            _vm._v("Choose step")
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "select",
-                            {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.formEdit.step_id,
-                                  expression: "formEdit.step_id"
-                                }
-                              ],
-                              staticClass: "form-control form-control-lg",
-                              attrs: { name: "", id: "", disabled: "" },
-                              on: {
-                                change: function($event) {
-                                  var $$selectedVal = Array.prototype.filter
-                                    .call($event.target.options, function(o) {
-                                      return o.selected
-                                    })
-                                    .map(function(o) {
-                                      var val =
-                                        "_value" in o ? o._value : o.value
-                                      return val
-                                    })
-                                  _vm.$set(
-                                    _vm.formEdit,
-                                    "step_id",
-                                    $event.target.multiple
-                                      ? $$selectedVal
-                                      : $$selectedVal[0]
-                                  )
-                                }
-                              }
-                            },
-                            _vm._l(_vm.todaySteps, function(step) {
-                              return _c(
-                                "option",
-                                { domProps: { value: step.id } },
-                                [_vm._v(_vm._s(step.name))]
-                              )
-                            }),
-                            0
-                          )
-                        ])
-                      ])
+                      _c("div", { staticClass: "col-md-6" })
                     ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
@@ -53100,19 +53063,17 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", [_vm._v("Order")]),
+        _c("th", [_vm._v("Priotiry")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mission")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Step")]),
-        _vm._v(" "),
         _c("th", [_vm._v("Description")]),
         _vm._v(" "),
         _c("th", [_vm._v("Modify")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Check")])
+        _c("th", [_vm._v("Completed")])
       ])
     ])
   },
@@ -53122,13 +53083,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-dark" }, [
       _c("tr", [
-        _c("th", [_vm._v("Order")]),
+        _c("th", [_vm._v("Priotiry")]),
         _vm._v(" "),
         _c("th", [_vm._v("Name")]),
         _vm._v(" "),
         _c("th", [_vm._v("Mission")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Step")]),
         _vm._v(" "),
         _c("th", [_vm._v("Description")])
       ])

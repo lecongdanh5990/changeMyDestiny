@@ -72,15 +72,7 @@ class MissionController extends Controller{
             $date = strtotime(date("Y-m-d"));
             $missions[$i]['missiondayleft'] = ($dateEndMission - $date) / 86400;
 
-            $stepsOfToday = $missions[$i]->steps()
-                ->where('startday', '<=', date("Y-m-d"))
-                ->get(['name', 'endday']);
-
-            foreach ($stepsOfToday as $step) {
-                $missions[$i]['stepname'] = $step->name;
-                $dateEndStep = strtotime($step->endday);
-                $missions[$i]['stepdayleft'] = ($dateEndStep - $date) / 86400;
-            }
+            
 
         }
         return $missions;

@@ -15,10 +15,10 @@ class WorkController extends Controller{
     public function showToday(){
         $works = Work::whereDate('created_at', '=', date('Y-m-d'))
             ->where('iscomplete', '=', 0)
+            ->orderBy('priority', 'asc')
             ->get();
-        for($i=0;$i<count($works);$i++){
-            $works[$i]['stepname']=$works[$i]->step->name;
-            $works[$i]['missionname'] = $works[$i]->step->mission->name;
+        for($i=0;$i< count( $works);$i++){
+              $works[$i]['missionname'] = $works[$i]->mission->name;
         }
         return $works;
     }
@@ -26,11 +26,10 @@ class WorkController extends Controller{
     public function showCompleted(){
         $works = Work::where('iscomplete', '=', 1)
             ->whereDate('created_at', '=', date('Y-m-d'))
-            ->orderBy('name', 'desc')
+            ->orderBy('priority', 'asc')
             ->get();
         for($i=0;$i<count($works);$i++){
-            $works[$i]['stepname']=$works[$i]->step->name;
-            $works[$i]['missionname'] = $works[$i]->step->mission->name;
+            $works[$i]['missionname'] = $works[$i]->mission->name;
         }
         return $works;
     }
@@ -44,8 +43,9 @@ class WorkController extends Controller{
     {
         $work = new Work();
         $work->name = $request->name;
+        $work->priority = $request->priority;
         $work->description = $request->description;
-        $work->step_id = $request->step_id;
+        $work->mission_id = $request->mission_id;
         $work->save();
         return $work;
     }
@@ -82,6 +82,7 @@ class WorkController extends Controller{
     {
         $work=Work::find($id);
         $work->delete();
+        return $work;
 
     }
 }
