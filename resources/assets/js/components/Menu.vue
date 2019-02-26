@@ -23,13 +23,17 @@
             <h3 class="text-center">Today Prodomo: {{prodomo.quantity}}</h3>
         <hr>
         <div class="panel-body text-center">
-            <div v-if="isStart">
-                <button class="btn btn-primary" v-on:click="startCount();isStart=!isStart">Start forcus</button>
+            <div v-if="isRelax">
+                <button class="btn btn-primary" v-on:click="isRun=!isRun;isRelax=!isRelax">Stop Relax</button>
             </div>
             <div v-else>
-                <button class="btn btn-danger" v-on:click="stopCount();isStart=!isStart">Stop</button>
+                <div v-if="isStart">
+                    <button class="btn btn-primary" v-on:click="startCount();isStart=!isStart">Start forcus</button>
+                </div>
+                <div v-else>
+                    <button class="btn btn-danger" v-on:click="stopCount();isStart=!isStart">Stop forcus</button>
+                </div>
             </div>
-            
             <div class="menu-timer text-center">
                 <div id="menu-timer__mins">00</div> : <div id="menu-timer__secs">00</div>
             </div>
@@ -40,15 +44,15 @@
 <script>
 export default {
     created(){
-        this.getProOfToday(); 
+        this.getProOfToday();
     },
     data:function(){
         return{
-            c:0,
             time:'',
             isRun:true,
             isStart:true,
-            numOfSec:10,
+            isRelax:false,
+            numOfSec:5,
             quantity:0,
             prodomo:{},
             form:new Form({
@@ -65,23 +69,29 @@ export default {
                 var secs=this.numOfSec-(mins*60);
                 document.getElementById("menu-timer__mins").innerHTML = mins;
                 document.getElementById("menu-timer__secs").innerHTML = secs;
-                this.time = setTimeout(this.startCount, 1000);
+                
                 if(this.numOfSec<=0) {
-                    this.isStart=!this.isStart;
-                    clearTimeout(this.time);
+                    this.isRelax=!this.isRelax;
+                    if(this.isRelax){
+                        this.numOfSec=3;    
+                        this.isStart=!this.isStart;
+                    }
+                    else{
+                        this.numOfSec=5;
+                        this.isStart=!this.isStart;
+                    }
                     if(this.prodomo===undefined){
                         this.createPro(1);
-                        this.numOfSec=10;
                     }
                     else{
                         this.updatePro(1);
-                        this.numOfSec=10;
                     }
                 }
+            this.time = setTimeout(this.startCount, 1000);
             }
             else{
                 clearTimeout(this.time);
-                this.numOfSec=10;
+                this.numOfSec=5;
                 document.getElementById("menu-timer__mins").innerHTML = 0;
                 document.getElementById("menu-timer__secs").innerHTML = 0;
                 this.isRun=true;
@@ -90,12 +100,10 @@ export default {
         stopCount(){
             this.isRun=false;
             if(this.prodomo===undefined){
-                alert("create prodomo");
                 this.form.quantity=Number((this.numOfSec/10).toFixed(1));
                 this.createPro(this.form.quantity);
             }
             else{
-                alert("updated prodomo");
                 var quantity=Number((this.numOfSec/10).toFixed(1));
                 this.updatePro(quantity);
             }
@@ -108,9 +116,6 @@ export default {
                     if(this.prodomo!==undefined){
                         this.form.fill(response.data[0]);
                         console.log(this.form);
-                    }
-                    else{
-                        
                     }
                     console.log(this.prodomo);
                     
@@ -135,10 +140,6 @@ export default {
         }
         
     }
-// function stopCount() {
-//   clearTimeout(t);
-//   timer_is_on = 0;
-// }
 }
 </script>
 
@@ -153,7 +154,6 @@ export default {
         margin-left: 0px;
         margin-right: 0px;
         padding-top: 10px;
-        /* border-bottom-width: 10px; */
         padding-bottom: 10px;
     }
     #menu-timer__mins{

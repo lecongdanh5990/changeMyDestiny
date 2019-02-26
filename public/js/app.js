@@ -53947,7 +53947,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n.menu-timer{\n    background-color: rgb(168, 175, 73);\n    margin: 1rem;\n    color: white;\n    font-size: 3rem;\n    border-radius: 10px;\n    width: 100%;\n    margin-left: 0px;\n    margin-right: 0px;\n    padding-top: 10px;\n    /* border-bottom-width: 10px; */\n    padding-bottom: 10px;\n}\n#menu-timer__mins{\n    height: 90%;\n    width: 40%;\n    background-color: blue;\n    display: inline-block;\n    \n    border-radius: 15px;\n    border: 2px solid white;\n}\n#menu-timer__secs{\n    height: 90%;\n    width: 40%;\n    background-color: green;\n    display: inline-block;\n    border-radius: 15px;\n    border: 2px solid white;\n}\n", ""]);
+exports.push([module.i, "\n.menu-timer{\n    background-color: rgb(168, 175, 73);\n    margin: 1rem;\n    color: white;\n    font-size: 3rem;\n    border-radius: 10px;\n    width: 100%;\n    margin-left: 0px;\n    margin-right: 0px;\n    padding-top: 10px;\n    padding-bottom: 10px;\n}\n#menu-timer__mins{\n    height: 90%;\n    width: 40%;\n    background-color: blue;\n    display: inline-block;\n    \n    border-radius: 15px;\n    border: 2px solid white;\n}\n#menu-timer__secs{\n    height: 90%;\n    width: 40%;\n    background-color: green;\n    display: inline-block;\n    border-radius: 15px;\n    border: 2px solid white;\n}\n", ""]);
 
 // exports
 
@@ -53997,6 +53997,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     created: function created() {
@@ -54005,11 +54009,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            c: 0,
             time: '',
             isRun: true,
             isStart: true,
-            numOfSec: 10,
+            isRelax: false,
+            numOfSec: 5,
             quantity: 0,
             prodomo: {},
             form: new Form({
@@ -54026,21 +54030,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var secs = this.numOfSec - mins * 60;
                 document.getElementById("menu-timer__mins").innerHTML = mins;
                 document.getElementById("menu-timer__secs").innerHTML = secs;
-                this.time = setTimeout(this.startCount, 1000);
+
                 if (this.numOfSec <= 0) {
-                    this.isStart = !this.isStart;
-                    clearTimeout(this.time);
+                    this.isRelax = !this.isRelax;
+                    if (this.isRelax) {
+                        this.numOfSec = 3;
+                        this.isStart = !this.isStart;
+                    } else {
+                        this.numOfSec = 5;
+                        this.isStart = !this.isStart;
+                    }
                     if (this.prodomo === undefined) {
                         this.createPro(1);
-                        this.numOfSec = 10;
                     } else {
                         this.updatePro(1);
-                        this.numOfSec = 10;
                     }
                 }
+                this.time = setTimeout(this.startCount, 1000);
             } else {
                 clearTimeout(this.time);
-                this.numOfSec = 10;
+                this.numOfSec = 5;
                 document.getElementById("menu-timer__mins").innerHTML = 0;
                 document.getElementById("menu-timer__secs").innerHTML = 0;
                 this.isRun = true;
@@ -54049,11 +54058,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         stopCount: function stopCount() {
             this.isRun = false;
             if (this.prodomo === undefined) {
-                alert("create prodomo");
                 this.form.quantity = Number((this.numOfSec / 10).toFixed(1));
                 this.createPro(this.form.quantity);
             } else {
-                alert("updated prodomo");
                 var quantity = Number((this.numOfSec / 10).toFixed(1));
                 this.updatePro(quantity);
             }
@@ -54067,7 +54074,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 if (_this.prodomo !== undefined) {
                     _this.form.fill(response.data[0]);
                     console.log(_this.form);
-                } else {}
+                }
                 console.log(_this.prodomo);
             });
         },
@@ -54091,10 +54098,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     }
-    // function stopCount() {
-    //   clearTimeout(t);
-    //   timer_is_on = 0;
-    // }
 });
 
 /***/ }),
@@ -54173,7 +54176,7 @@ var render = function() {
     _c("hr"),
     _vm._v(" "),
     _c("div", { staticClass: "panel-body text-center" }, [
-      _vm.isStart
+      _vm.isRelax
         ? _c("div", [
             _c(
               "button",
@@ -54181,28 +54184,46 @@ var render = function() {
                 staticClass: "btn btn-primary",
                 on: {
                   click: function($event) {
-                    _vm.startCount()
-                    _vm.isStart = !_vm.isStart
+                    _vm.isRun = !_vm.isRun
+                    _vm.isRelax = !_vm.isRelax
                   }
                 }
               },
-              [_vm._v("Start forcus")]
+              [_vm._v("Stop Relax")]
             )
           ])
         : _c("div", [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                on: {
-                  click: function($event) {
-                    _vm.stopCount()
-                    _vm.isStart = !_vm.isStart
-                  }
-                }
-              },
-              [_vm._v("Stop")]
-            )
+            _vm.isStart
+              ? _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      on: {
+                        click: function($event) {
+                          _vm.startCount()
+                          _vm.isStart = !_vm.isStart
+                        }
+                      }
+                    },
+                    [_vm._v("Start forcus")]
+                  )
+                ])
+              : _c("div", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          _vm.stopCount()
+                          _vm.isStart = !_vm.isStart
+                        }
+                      }
+                    },
+                    [_vm._v("Stop forcus")]
+                  )
+                ])
           ]),
       _vm._v(" "),
       _vm._m(0)
