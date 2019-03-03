@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Step;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class WorkController extends Controller
+class Controller extends Controller
 {
     /**
      * Display a listing of the resource.

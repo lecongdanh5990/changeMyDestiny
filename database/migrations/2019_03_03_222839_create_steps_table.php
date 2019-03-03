@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWorksTable extends Migration
+class CreateStepsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateWorksTable extends Migration
      */
     public function up()
     {
-        Schema::create('works', function (Blueprint $table) {
+        Schema::create('steps', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('priority')->default('1');
             $table->integer('mission_id')->unsigned();
-            $table->boolean('iscomplete')->default('0');
-            $table->string('description')->nullable();
+            $table->date('endday');
+            $table->date('startday');
             $table->timestamps();
 
             $table->foreign('mission_id')->references('id')->on('missions');
+
         });
     }
 
@@ -33,6 +33,6 @@ class CreateWorksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('works');
+        Schema::dropIfExists('steps');
     }
 }
