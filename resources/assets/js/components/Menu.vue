@@ -52,7 +52,7 @@ export default {
             isRun:true,
             isStart:true,
             isRelax:false,
-            numOfSec:5,
+            numOfSec:1500,
             quantity:0,
             prodomo:{},
             form:new Form({
@@ -73,11 +73,11 @@ export default {
                 if(this.numOfSec<=0) {
                     this.isRelax=!this.isRelax;
                     if(this.isRelax){
-                        this.numOfSec=3;    
+                        this.numOfSec=300;    
                         this.isStart=!this.isStart;
                     }
                     else{
-                        this.numOfSec=5;
+                        this.numOfSec=1500;
                         this.isStart=!this.isStart;
                     }
                     if(this.prodomo===undefined){
@@ -91,7 +91,7 @@ export default {
             }
             else{
                 clearTimeout(this.time);
-                this.numOfSec=5;
+                this.numOfSec=1500;
                 document.getElementById("menu-timer__mins").innerHTML = 0;
                 document.getElementById("menu-timer__secs").innerHTML = 0;
                 this.isRun=true;
