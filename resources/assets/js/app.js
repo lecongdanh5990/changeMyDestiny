@@ -16,7 +16,7 @@ const routes = [
   { path: "/dashboard", component: require("./components/Dashboard.vue") },
   { path: "/mission", component: require("./components/Mission.vue") },
   {
-    path: "/mission/detail/",
+    path: "/mission/detail/:id",
     component: require("./components/MissionDetail.vue")
   },
   { path: "/mission/add", component: require("./components/MissionAdd.vue") },

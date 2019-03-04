@@ -1509,7 +1509,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]);
 window.Swal = __WEBPACK_IMPORTED_MODULE_2_sweetalert2___default.a;
 
 var routes = [{ path: "/dashboard", component: __webpack_require__(46) }, { path: "/mission", component: __webpack_require__(13) }, {
-  path: "/mission/detail/",
+  path: "/mission/detail/:id",
   component: __webpack_require__(50)
 }, { path: "/mission/add", component: __webpack_require__(14) }, { path: "/today", component: __webpack_require__(58) }, { path: "/step", component: __webpack_require__(63) }, { path: "/note", component: __webpack_require__(66) }];
 
@@ -50439,13 +50439,17 @@ var render = function() {
               _c(
                 "td",
                 [
-                  _c("router-link", { attrs: { to: "/mission/detail/" } }, [
-                    _vm._v(
-                      "\n                                " +
-                        _vm._s(mission.name) +
-                        "\n                            "
-                    )
-                  ])
+                  _c(
+                    "router-link",
+                    { attrs: { to: "/mission/detail/" + mission.id } },
+                    [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(mission.name) +
+                          "\n                            "
+                      )
+                    ]
+                  )
                 ],
                 1
               ),
@@ -50910,6 +50914,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -50918,43 +50965,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             missionId: this.$route.params.id,
             listOfSteps: [],
             listOfDays: [],
+            nameOfStep: '',
+            statuses: [],
+            works: [],
             backgroundColors: ['#222226', '#70777a', '#38b20c', '#f9ab26', '#f9dd27']
         };
     },
 
     created: function created() {
         this.getMission();
-        this.getStepsOfThisMission();
-        this.getProcess();
+        this.getSteps();
     },
 
     methods: {
         getMission: function getMission() {
             var _this = this;
 
-            axios.get('/api/mission/3').then(function (data) {
+            axios.get('/api/mission/' + this.missionId).then(function (data) {
                 _this.mission = data.data;
             });
+            axios.get('/api/mission/' + this.missionId + '/statuses').then(function (data) {
+                _this.mission['excellent'] = data.data.excellent;
+                _this.mission['good'] = data.data.good;
+                _this.mission['normal'] = data.data.normal;
+                _this.mission['bad'] = data.data.bad;
+                _this.mission['terrible'] = data.data.terrible;
+                console.log(_this.mission);
+            });
         },
-        getStepsOfThisMission: function getStepsOfThisMission() {
+        getSteps: function getSteps() {
             var _this2 = this;
 
-            axios.get('/api/mission/3/steps').then(function (response) {
+            axios.get('/api/mission/' + this.missionId + '/steps').then(function (response) {
                 _this2.listOfSteps = response.data;
             });
         },
-        getWorksOfThisMission: function getWorksOfThisMission() {
+        getStatuses: function getStatuses(id) {
             var _this3 = this;
 
-            axios.get('/api/mission/3/steps').then(function (response) {
-                _this3.listOfSteps = response.data;
+            axios.get('/api/step/' + id + '/statuses').then(function (response) {
+                _this3.statuses = response.data;
             });
         },
-        getProcess: function getProcess() {
+        getWorks: function getWorks(id) {
             var _this4 = this;
 
-            axios.get('/api/note/noteofmission/').then(function (response) {
-                _this4.listOfDays = response.data;
+            axios.get('/api/status/' + id + '/works').then(function (response) {
+                _this4.works = response.data;
             });
         }
     }
@@ -50969,25 +51026,90 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "col-md-6" }, [
+    _c("div", { staticClass: "col-md-12" }, [
       _c("div", [
-        _c("h1", [_vm._v("Missions")]),
+        _c("h1", [_vm._v(_vm._s(_vm.mission.name))]),
         _vm._v(" "),
-        _c("table", { staticClass: "table table-bordered" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("tbody", [
-            _c("tr", [
-              _c("td", [_vm._v(_vm._s(_vm.mission.name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.mission.startday))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.mission.endday))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(_vm.mission.isComplete))])
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          [
+            _vm._v("Start day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.startday))
             ])
-          ])
-        ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          [
+            _vm._v("End day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.endday))
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-danger", attrs: { type: "button" } },
+          [
+            _vm._v("Excellent day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.excellent) + " %")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-warning", attrs: { type: "button" } },
+          [
+            _vm._v("Good day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.good) + " %")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "button" } },
+          [
+            _vm._v("Nomal day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.normal) + " %")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-primary", attrs: { type: "button" } },
+          [
+            _vm._v("Bad day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.bad) + " %")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          { staticClass: "btn btn-default", attrs: { type: "button" } },
+          [
+            _vm._v("Terrible day "),
+            _c("span", { staticClass: "badge" }, [
+              _vm._v(_vm._s(_vm.mission.terrible) + " %")
+            ])
+          ]
+        )
       ]),
       _vm._v(" "),
       _c("div", [
@@ -51008,7 +51130,27 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(step.endday))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(step.isComplete))])
+                _c("td", [_vm._v(_vm._s(step.isComplete))]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      on: {
+                        click: function($event) {
+                          _vm.getStatuses(step.id)
+                          _vm.nameOfStep = step.name
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Show detail\n                            "
+                      )
+                    ]
+                  )
+                ])
               ])
             }),
             0
@@ -51017,8 +51159,8 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-6" }, [
-      _c("h1", [_vm._v("Detail")]),
+    _c("div", { staticClass: "col-md-12" }, [
+      _c("h1", [_vm._v("Detail " + _vm._s(_vm.nameOfStep) + " step ")]),
       _vm._v(" "),
       _c(
         "div",
@@ -51042,12 +51184,13 @@ var render = function() {
               _c(
                 "tbody",
                 { staticClass: "mission-detail__days-table__tbody" },
-                _vm._l(_vm.listOfDays, function(day, index) {
+                _vm._l(_vm.statuses, function(status, index) {
                   return _c(
                     "tr",
                     {
                       style: {
-                        "background-color": _vm.backgroundColors[day.rating - 1]
+                        "background-color":
+                          _vm.backgroundColors[status.rating - 1]
                       }
                     },
                     [
@@ -51055,9 +51198,35 @@ var render = function() {
                         _vm._v(_vm._s(index + 1))
                       ]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(day.description))]),
+                      _c("td", [_vm._v(_vm._s(status.content))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(day.convertDate))])
+                      _c("td", [_vm._v(_vm._s(status.tomato))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(status.formatDate))]),
+                      _vm._v(" "),
+                      _c("th", [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: {
+                              type: "button",
+                              "data-toggle": "modal",
+                              "data-target": "#detailModal"
+                            },
+                            on: {
+                              click: function($event) {
+                                _vm.getWorks(status.id)
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                            Show detail\n                            "
+                            )
+                          ]
+                        )
+                      ])
                     ]
                   )
                 }),
@@ -51069,7 +51238,54 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "mission-detail__days" })
+    _c("div", { staticClass: "mission-detail__days" }, [
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "detailModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "exampleModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "modal-dialog", attrs: { role: "document" } },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("table", { staticClass: "table table-dark" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.works, function(work, index) {
+                        return _c("tr", [
+                          _c("th", { attrs: { scope: "row" } }, [
+                            _vm._v(_vm._s(index + 1))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [_vm._v(_vm._s(work.name))])
+                        ])
+                      }),
+                      0
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(5)
+              ])
+            ]
+          )
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -51077,17 +51293,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Start day")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("End day")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Complete")])
-      ])
-    ])
+    return _c(
+      "button",
+      { staticClass: "btn btn-primary", attrs: { type: "button" } },
+      [
+        _vm._v("Real end day "),
+        _c("span", { staticClass: "badge" }, [_vm._v("7")])
+      ]
+    )
   },
   function() {
     var _vm = this
@@ -51114,17 +51327,77 @@ var staticRenderFns = [
     return _c("thead", { staticClass: "mission-detail__days-table__thead" }, [
       _c("tr", [
         _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-          _vm._v("#")
+          _vm._v("Day")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
-          _vm._v("Description")
+          _vm._v("Content")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
+          _vm._v("Number of prodomo")
         ]),
         _vm._v(" "),
         _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
           _vm._v("Date")
+        ]),
+        _vm._v(" "),
+        _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
+          _vm._v("Detail")
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Modal title")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Order")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Work")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("Close")]
+      )
     ])
   }
 ]

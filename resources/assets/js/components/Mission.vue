@@ -16,7 +16,7 @@
                     <tbody>
                         <tr v-for="mission in listOfMissions">
                             <td>
-                                <router-link to='/mission/detail/'>
+                                <router-link :to="'/mission/detail/'+mission.id">
                                     {{mission.name}}
                                 </router-link>
                             </td>

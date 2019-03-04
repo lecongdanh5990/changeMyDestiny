@@ -34,6 +34,7 @@ class MissionController extends Controller{
     }
 
     
+    
     public function edit($id)
     {
         //
@@ -76,6 +77,33 @@ class MissionController extends Controller{
 
         }
         return $missions;
+    }
+
+    public function getStatuses($id){
+        $mission=Mission::find($id);
+        $statuses=$mission->steps()
+            ->whereHas('statuses')
+            ->with('statuses')
+            ->get()
+            ->pluck('statuses')
+            ->collapse();
+        
+        $ratings=array('excellent'=>'','good'=>'','normal'=>'','bad'=>'','terrible'=>'');
+        $total=count($statuses);
+        foreach($statuses as $status){
+            if($status['rating']==5) $ratings['excellent']++;
+            else if( $status['rating'] == 4) $ratings['good']++;
+            else if($status['rating'] == 3) $ratings['normal']++;
+            else if($status['rating'] == 2) $ratings['bad']++;
+            else $ratings['terrible']++;
+        }
+
+        $ratings['excellent']= round( $ratings['excellent'] / $total * 100,2);
+        $ratings['good']= round( $ratings['good'] / $total * 100,2);
+        $ratings['normal']= round( $ratings['normal'] / $total * 100,2);
+        $ratings['bad']= round( $ratings['bad'] / $total * 100,2);
+        $ratings['terrible']= round( $ratings['terrible'] / $total * 100,2);
+        return $ratings;
     }
 
 }
