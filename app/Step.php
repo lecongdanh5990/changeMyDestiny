@@ -11,4 +11,8 @@ class Step extends Model
     {
         return $this->belongsTo('App\Mission');
     }
+    public function statuses()
+    {
+        return $this->hasMany('App\Status');
+    }
 }
