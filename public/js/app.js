@@ -51585,11 +51585,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -52057,15 +52052,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "form-control",
-                        attrs: {
-                          type: "date",
-                          name: "startday",
-                          min:
-                            _vm.stepEndDay === null
-                              ? _vm.formMission.startday
-                              : _vm.stepEndDay,
-                          max: _vm.formMission.endday
-                        },
+                        attrs: { type: "date", name: "startday" },
                         domProps: { value: _vm.formStep.startday },
                         on: {
                           input: function($event) {
@@ -52098,15 +52085,7 @@ var render = function() {
                         }
                       ],
                       staticClass: "form-control",
-                      attrs: {
-                        type: "date",
-                        name: "endday",
-                        min:
-                          _vm.stepStartDay === null
-                            ? _vm.formMission.startday
-                            : _vm.stepEndDay,
-                        max: _vm.formMission.endday
-                      },
+                      attrs: { type: "date", name: "endday" },
                       domProps: { value: _vm.formStep.endday },
                       on: {
                         input: function($event) {
