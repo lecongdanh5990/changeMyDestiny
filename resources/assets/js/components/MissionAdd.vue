@@ -102,7 +102,8 @@
                             <label for="">Start day</label>
                             <div>
                                 <input type="date" class="form-control" name="startday" 
-                                v-model="formStep.startday">
+                                v-model="formStep.startday"
+                                v-bind:min="newestMission.startday">
                             </div>
                             
                         </div>
@@ -112,7 +113,9 @@
                         <div class="form-group">
                             <label for="">End day</label>
                             <input type="date" class="form-control" name="endday" 
-                                v-model="formStep.endday">
+                                v-model="formStep.endday"
+                                v-bind:min="formStep.startday"
+                                v-bind:max="newestMission.endday">
                         </div>
                     </div>
                 </div>
