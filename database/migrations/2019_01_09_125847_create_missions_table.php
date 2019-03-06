@@ -18,7 +18,7 @@ class CreateMissionsTable extends Migration
             $table->string('name');
             $table->boolean('iscomplete')->default('0');
             $table->date('endday');
-            $table->date('realendday');
+            $table->date('realendday')->nullable();
             $table->date('startday');
             $table->timestamps();
         });

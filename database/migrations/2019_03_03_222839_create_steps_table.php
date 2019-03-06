@@ -19,6 +19,7 @@ class CreateStepsTable extends Migration
             $table->integer('mission_id')->unsigned();
             $table->date('endday');
             $table->date('startday');
+            $table->date('realendday')->nullable();
             $table->timestamps();
 
             $table->foreign('mission_id')->references('id')->on('missions');

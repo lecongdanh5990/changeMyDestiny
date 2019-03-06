@@ -84,7 +84,6 @@
                                 v-on:click="deleteStep(step.id)">
                                 <i class="fa fa-trash">Delete</i>
                             </button>
-
                         </td>
                     </tr>
                 </tbody>
@@ -103,7 +102,8 @@
                             <div>
                                 <input type="date" class="form-control" name="startday" 
                                 v-model="formStep.startday"
-                                v-bind:min="newestMission.startday">
+                                v-bind:min="newestMission.startday"
+                                v-bind:max="formStep.endday">
                             </div>
                             
                         </div>

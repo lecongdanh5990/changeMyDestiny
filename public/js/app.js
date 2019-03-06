@@ -52058,7 +52058,8 @@ var render = function() {
                         attrs: {
                           type: "date",
                           name: "startday",
-                          min: _vm.newestMission.startday
+                          min: _vm.newestMission.startday,
+                          max: _vm.formStep.endday
                         },
                         domProps: { value: _vm.formStep.startday },
                         on: {
