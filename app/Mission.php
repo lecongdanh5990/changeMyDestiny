@@ -11,4 +11,8 @@ class Mission extends Model
     {
         return $this->hasMany('App\Step');
     }
+    public function statuses()
+    {
+        return $this->hasMany('App\Status');
+    }
 }

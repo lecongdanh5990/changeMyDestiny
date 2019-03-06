@@ -16,12 +16,12 @@ class CreateStatusesTable extends Migration
         Schema::create('statuses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('content');
-            $table->integer('step_id')->unsigned();
+            $table->integer('mission_id')->unsigned();
             $table->integer('tomato');
             $table->integer('rating');
             $table->timestamps();
 
-            $table->foreign('step_id')->references('id')->on('steps');
+            $table->foreign('mission_id')->references('id')->on('missions');
         });
     }
 
