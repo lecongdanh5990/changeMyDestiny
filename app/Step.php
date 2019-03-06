@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Step extends Model
 {
-    protected $fillable = ['name','mission_id'];
-    public function Mission()
+    protected $fillable = ['name','mission_id','startday','endday','realendday'];
+    public function mission()
     {
         return $this->belongsTo('App\Mission');
     }

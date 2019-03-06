@@ -71,7 +71,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="(step,index) in listOfSteps">
-                        <td>{{index}}</td>
+                        <td>{{index+1}}</td>
                         <td>{{step.name}}</td>
                         <td>{{step.startday}}</td>
                         <td>{{step.endday}}</td>
@@ -103,7 +103,7 @@
                                 <input type="date" class="form-control" name="startday" 
                                 v-model="formStep.startday"
                                 v-bind:min="newestMission.startday"
-                                v-bind:max="formStep.endday">
+                                v-bind:max="formStep.endday||newestMission.endday">
                             </div>
                             
                         </div>
@@ -114,7 +114,7 @@
                             <label for="">End day</label>
                             <input type="date" class="form-control" name="endday" 
                                 v-model="formStep.endday"
-                                v-bind:min="formStep.startday"
+                                v-bind:min="formStep.startday||newestMission.startday"
                                 v-bind:max="newestMission.endday">
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Step;
 
 class StepController extends Controller
 {
@@ -26,15 +27,15 @@ class StepController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+   
+         return $step= Step::create([
+            'startday' => $request->startday,
+            'endday' => $request->endday,
+            'name'=>$request['name'],
+            'mission_id'=>$request['mission_id']
+        ]);
+        return $step;
     }
 
     /**
@@ -59,16 +60,14 @@ class StepController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $step=Step ::find($id);
+        $step->name=$request->name;
+        $step->endday = $request->endday;
+        $step->mission_id=$request->mission_id;
+        $step->save();
+        return $step;
     }
 
     /**

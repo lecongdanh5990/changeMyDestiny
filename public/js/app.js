@@ -51952,7 +51952,7 @@ var render = function() {
               "tbody",
               _vm._l(_vm.listOfSteps, function(step, index) {
                 return _c("tr", [
-                  _c("td", [_vm._v(_vm._s(index))]),
+                  _c("td", [_vm._v(_vm._s(index + 1))]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(step.name))]),
                   _vm._v(" "),
@@ -52059,7 +52059,7 @@ var render = function() {
                           type: "date",
                           name: "startday",
                           min: _vm.newestMission.startday,
-                          max: _vm.formStep.endday
+                          max: _vm.formStep.endday || _vm.newestMission.endday
                         },
                         domProps: { value: _vm.formStep.startday },
                         on: {
@@ -52096,7 +52096,8 @@ var render = function() {
                       attrs: {
                         type: "date",
                         name: "endday",
-                        min: _vm.formStep.startday,
+                        min:
+                          _vm.formStep.startday || _vm.newestMission.startday,
                         max: _vm.newestMission.endday
                       },
                       domProps: { value: _vm.formStep.endday },
